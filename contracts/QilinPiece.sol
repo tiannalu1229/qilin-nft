@@ -6,6 +6,7 @@ import "@openzeppelin/contracts/access/Ownable.sol";
 contract QilinPiece is Ownable, ERC721{
 
     uint256 public totalQty = 0;
+
     mapping (address => uint256) public minterToTokenId;
 
     uint256 public _totalSupply = 0;
@@ -18,7 +19,7 @@ contract QilinPiece is Ownable, ERC721{
         _totalSupply = totalSupply_;
     }
 
-    function mintQilinPiece (address account) external {
+    function mintQilinPiece (address account) external onlyOwner {
 
         if (_totalSupply > 0) {
             require(totalQty < _totalSupply, "the piece is mint out!");
