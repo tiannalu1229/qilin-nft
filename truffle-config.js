@@ -17,6 +17,8 @@
  * phrase from a file you've .gitignored so it doesn't accidentally become public.
  *
  */
+ const HDWalletProvider = require("@truffle/hdwallet-provider");
+ const { providerAddress, privateKey } = require('./scripts/config');
 
 // const HDWalletProvider = require('@truffle/hdwallet-provider');
 //
@@ -71,6 +73,22 @@ module.exports = {
     // network_id: 2111,   // This network is yours, in the cloud.
     // production: true    // Treats this network as if it was a public net. (default: false)
     // }
+    development: {
+      host: "127.0.0.1",
+      port: 8545,
+      network_id: "*"
+    },
+    rinkeby: {
+      provider: () =>
+          new HDWalletProvider(
+              privateKey, providerAddress
+          ),
+      network_id: "4", // Any network (default: none)
+      gas: 12000000,
+      gasPrice: 10000000000,
+      skipDryRun: true,
+      confirmations: 2
+    }
   },
 
   // Set default mocha options here, use special reporters etc.
