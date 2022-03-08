@@ -1,0 +1,9 @@
+{
+    "name": "qilin-nft",
+    "version": "1.0.0",
+    "dependencies": {
+      "@openzeppelin/contracts": "^3.4.1",
+      "ethers": "^5.5.4",
+      "solc": "^0.8.3"
+    }
+  }
