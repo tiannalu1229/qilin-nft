@@ -28,6 +28,7 @@ contract QilinPiece is Ownable, ERC721{
         require(minterToTokenId[account] < 1, "you have owned this piece");
 
         uint256 tokenId = totalQty + 1;
+        totalQty += 1;
         _safeMint(account, tokenId);
 
         minterToTokenId[account] = tokenId;

@@ -67,21 +67,21 @@ contract Qilin is Ownable, ERC721 {
         
         if (piece == 1) {
 
-            require(whiteListA[msg.sender] == 1, "you can't mint piece A");
+            require(whiteListA[msg.sender] == 1, "you can not mint piece A");
 
             QilinPiece a = QilinPiece(_pieceA);
             a.mintQilinPiece(msg.sender);
             whiteListA[msg.sender] = 2;
         } else if (piece == 2) {
 
-            require(whiteListB[msg.sender] == 1, "you can't mint piece B");
+            require(whiteListB[msg.sender] == 1, "you can not mint piece B");
 
             QilinPiece b = QilinPiece(_pieceB);
             b.mintQilinPiece(msg.sender);
             whiteListB[msg.sender] = 2;
         } else if (piece == 3) {
 
-            require(whiteListX[msg.sender] == 1, "you can't mint piece X");
+            require(whiteListX[msg.sender] == 1, "you can not mint piece X");
 
             QilinPiece x = QilinPiece(_pieceX);
             x.mintQilinPiece(msg.sender);
