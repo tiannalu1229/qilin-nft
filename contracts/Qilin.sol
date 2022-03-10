@@ -2,9 +2,10 @@ pragma solidity >=0.4.22 <0.9.0;
 
 import "@openzeppelin/contracts/token/ERC721/ERC721.sol";
 import "@openzeppelin/contracts/access/Ownable.sol";
+import "./Multicall.sol";
 import "./QilinPiece.sol";
 
-contract Qilin is Ownable, ERC721 {
+contract Qilin is Ownable, ERC721, Multicall {
 
     uint256 public totalQilinQty = 0;
     uint256 public constant TOTAL_QILIN_SUPPLY = 2022;
@@ -12,6 +13,7 @@ contract Qilin is Ownable, ERC721 {
     address _pieceA;
     address _pieceB;
     address _pieceX;
+    string private _tokenURI;
 
     mapping (address => uint256) public whiteListA;
     mapping (address => uint256) public whiteListB;
@@ -22,11 +24,13 @@ contract Qilin is Ownable, ERC721 {
         address pieceB_,
         address pieceX_,
         string memory name,
-        string memory symbol
+        string memory symbol,
+        string memory tokenURI_
     ) ERC721(name, symbol) {
         _pieceA = pieceA_;
         _pieceB = pieceB_;
         _pieceX = pieceX_;
+        _tokenURI = tokenURI_;
     }
 
     function mintQilin () external {
@@ -57,6 +61,7 @@ contract Qilin is Ownable, ERC721 {
         x.burn(tokenIdX);
 
         _safeMint(msg.sender, totalQilinQty + 1);
+        totalQilinQty += 1;
 
         whiteListA[msg.sender] = 3;
         whiteListB[msg.sender] = 3;
@@ -64,6 +69,8 @@ contract Qilin is Ownable, ERC721 {
     }
 
     function mintQilinPiece (uint256 piece) external {
+
+        require(piece == 1 || piece == 2 || piece == 3, "no kind of piece");
         
         if (piece == 1) {
 
@@ -112,6 +119,19 @@ contract Qilin is Ownable, ERC721 {
     function getStatus (address account) external view returns (uint256[3] memory) {
 
         return [whiteListA[account], whiteListB[account], whiteListX[account]];
+    }
+
+    function tokenURI(uint256 tokenId) public view virtual override returns (string memory) {
+        require(_exists(tokenId), "ERC721Metadata: URI query for nonexistent token");
+
+        
+        string memory baseURI = _baseURI();
+        return bytes(baseURI).length > 0 ? string(abi.encodePacked(baseURI)) : "";
+    }
+
+    function _baseURI() override internal view virtual returns (string memory) {
+
+        return _tokenURI;
     }
 
 }
